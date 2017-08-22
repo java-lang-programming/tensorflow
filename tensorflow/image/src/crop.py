@@ -13,17 +13,14 @@ def main():
   image = tf.read_file("/root/scikit/tonsorflow/sample/tensorflow/image/images/cat.jpeg")
   #　ファイルを読み込む
   decoded_image = tf.image.decode_jpeg(image, channels=3)
-  transposed_image = tf.image.transpose_image(decoded_image)
+  croped_image = tf.random_crop(decoded_image, [100, 150, 3])
 
   # Launch the graph in a session.
-  # with構文を使うと、close()の呼び出しが不要になる
   with tf.Session() as session:
-    # Evaluate the tensor `transposed_image`.
-    result = session.run(transposed_image)
-    # with session.as_default():
-    # ouput = transposed_image.eval()
-  plt.imshow(result)
-  plt.savefig(OUTPUT_PATH + 'transposed_image.png')
+    for i in range(3):
+      result = session.run(croped_image)
+      plt.imshow(result)
+      plt.savefig(OUTPUT_PATH + 'croped_image' + str(i) + ".png")
 
 if __name__ == "__main__":
   main()
